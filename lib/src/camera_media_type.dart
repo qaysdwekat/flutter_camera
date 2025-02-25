@@ -1,0 +1,4 @@
+enum CameraMediaType {
+  photo,
+  video,
+}
