@@ -18,15 +18,15 @@ import 'flash_status.dart';
 class CameraScreen extends StatefulWidget {
   const CameraScreen({
     super.key,
-    this.resolution = CameraResolution.max,
+    this.resolution,
     this.cameraType = CameraType.back,
-    this.mediaType = CameraMediaType.photo,
+    this.mediaTypes = CameraMediaType.values,
     this.flashStatus = FlashStatus.off,
   });
 
-  final CameraResolution resolution;
+  final List<CameraMediaType> mediaTypes;
+  final CameraResolution? resolution;
   final CameraType cameraType;
-  final CameraMediaType mediaType;
   final FlashStatus flashStatus;
 
   @override
@@ -50,7 +50,7 @@ class _CameraScreenState extends State<CameraScreen> with WidgetsBindingObserver
     super.initState();
     zoom = CameraZoomLevel.one;
     cameraType = widget.cameraType;
-    mediaType = widget.mediaType;
+    mediaType = widget.mediaTypes.first;
     flashStatus = widget.flashStatus;
 
     if (CameraService().cameras.isNotEmpty) {
@@ -82,7 +82,7 @@ class _CameraScreenState extends State<CameraScreen> with WidgetsBindingObserver
     );
     _cameraController = CameraController(
       camera,
-      widget.resolution.resolutionPreset,
+      widget.resolution?.resolutionPreset ?? ResolutionPreset.max,
     );
     cameraValue = _cameraController?.initialize();
   }
@@ -215,7 +215,7 @@ class _CameraScreenState extends State<CameraScreen> with WidgetsBindingObserver
                             spacing: 4,
                             children: [
                               MediaTypeSwitch(
-                                supportedTypes: CameraMediaType.values,
+                                supportedTypes: widget.mediaTypes,
                                 onChanged: (type) {
                                   setState(() {
                                     isRecording = false;
@@ -394,7 +394,7 @@ class MediaTypeSwitch extends StatefulWidget {
   final void Function(CameraMediaType) onChanged;
 
   @override
-  _MediaTypeSwitchState createState() => _MediaTypeSwitchState();
+  State<StatefulWidget> createState() => _MediaTypeSwitchState();
 }
 
 class _MediaTypeSwitchState extends State<MediaTypeSwitch> {

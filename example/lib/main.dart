@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_camera/flutter_camera.dart';
 
 void main() async {
-
   runApp(const MyApp());
 }
 
