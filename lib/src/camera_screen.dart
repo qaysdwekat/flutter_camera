@@ -35,6 +35,7 @@ class CameraScreen extends StatefulWidget {
 
 class _CameraScreenState extends State<CameraScreen> with WidgetsBindingObserver {
   List<CameraDescription> cameras = [];
+  List<CameraMediaType> mediaTypes = CameraMediaType.values;
   CameraController? _cameraController;
   Future<void>? cameraValue;
   bool isRecording = false;
@@ -50,8 +51,9 @@ class _CameraScreenState extends State<CameraScreen> with WidgetsBindingObserver
     super.initState();
     zoom = CameraZoomLevel.one;
     cameraType = widget.cameraType;
-    mediaType = widget.mediaTypes.first;
     flashStatus = widget.flashStatus;
+    mediaTypes = widget.mediaTypes.isEmpty ? CameraMediaType.values : widget.mediaTypes;
+    mediaType = mediaTypes.first;
 
     if (CameraService().cameras.isNotEmpty) {
       initCallback(false);
@@ -215,7 +217,7 @@ class _CameraScreenState extends State<CameraScreen> with WidgetsBindingObserver
                             spacing: 4,
                             children: [
                               MediaTypeSwitch(
-                                supportedTypes: widget.mediaTypes,
+                                supportedTypes: mediaTypes,
                                 onChanged: (type) {
                                   setState(() {
                                     isRecording = false;
