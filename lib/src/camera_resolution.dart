@@ -25,7 +25,7 @@ enum CameraResolution {
 
 extension CameraStringExt on String? {
 // Function to map the string to CameraResolution
-  CameraResolution? get cameraResolution {
+  CameraResolution get cameraResolution {
     // Try to match the string with an enum value
     final value = this?.toLowerCase() ?? '';
 
@@ -40,10 +40,8 @@ extension CameraStringExt on String? {
         return CameraResolution.veryHigh;
       case 'ultrahigh':
         return CameraResolution.ultraHigh;
-      case 'max':
-        return CameraResolution.max;
       default:
-        return null; // Return null if no matching enum found
+        return CameraResolution.max;
     }
   }
 }

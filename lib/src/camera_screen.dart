@@ -18,14 +18,14 @@ import 'flash_status.dart';
 class CameraScreen extends StatefulWidget {
   const CameraScreen({
     super.key,
-    this.resolution,
+    this.resolution = CameraResolution.max,
     this.cameraType = CameraType.back,
     this.mediaTypes = CameraMediaType.values,
     this.flashStatus = FlashStatus.off,
   });
 
   final List<CameraMediaType> mediaTypes;
-  final CameraResolution? resolution;
+  final CameraResolution resolution;
   final CameraType cameraType;
   final FlashStatus flashStatus;
 
@@ -84,7 +84,7 @@ class _CameraScreenState extends State<CameraScreen> with WidgetsBindingObserver
     );
     _cameraController = CameraController(
       camera,
-      widget.resolution?.resolutionPreset ?? ResolutionPreset.max,
+      widget.resolution.resolutionPreset,
     );
     cameraValue = _cameraController?.initialize();
   }
